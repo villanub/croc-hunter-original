@@ -8,7 +8,7 @@
     "hostname": "crochunter.jessicadeen.com"
   },
   "container_repo": {
-    "host": "jfrog.io",
+    "host": "jfrogjd-crochunter.jfrog.io",
     "master_acct": "jfrogjd",
     "alt_acct": "jfrogjd",
     "jenkins_creds_id": "jfrog_creds",
