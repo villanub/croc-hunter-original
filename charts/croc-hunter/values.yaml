@@ -8,11 +8,11 @@ servicePort: 80
 containerPort: 8080
 component: "croc-hunter"
 replicas: 3
-image: "quay.io/lachie83/croc-hunter"
+image: "jfrogjd-crochunter.jfrog.io/jfrogjd/crochunter"
 imageTag: "latest"
 imagePullPolicy: "Always"
 ## If you have a private registry you specify a secret to use
-imagePullSecrets: croc-hunter-secrets
+imagePullSecrets: "croc-hunter-secrets"
 cpu: "10m"
 memory: "128Mi"
 ## Ingress settings
