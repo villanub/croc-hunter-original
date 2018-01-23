@@ -5,7 +5,7 @@
 Master:
   ImageTag: "2.102"
   Memory: "512Mi"
-  HostName: jenkinsk8s.jessicadeen.com
+  HostName: jenkins.jessicadeen.com
   ServiceType: ClusterIP
   InstallPlugins:
       - kubernetes
@@ -15,6 +15,7 @@ Master:
       - pipeline-github-lib
       - ghprb
       - blueocean
+      - artifactory
 
   ScriptApproval:
     - "method groovy.json.JsonSlurperClassic parseText java.lang.String"
@@ -31,9 +32,9 @@ Master:
       kubernetes.io/tls-acme: "true"
 
     TLS:
-      - secretName: jenkinsk8s.jessicadeen.com
+      - secretName: jenkins.jessicadeen.com
         hosts:
-          - jenkinsk8s.jessicadeen.com
+          - jenkins.jessicadeen.com
 
 Agent:
   Enabled: false
