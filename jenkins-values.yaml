@@ -16,8 +16,6 @@ Master:
       - ghprb:1.40.0
       - blueocean:1.4.0
       - artifactory:2.14.0
-  imagePullSecrets:
-    - croc-hunter-secrets
 
   ScriptApproval:
     - "method groovy.json.JsonSlurperClassic parseText java.lang.String"
