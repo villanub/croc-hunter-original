@@ -143,7 +143,7 @@ volumes:[
           //   )
           // }
 
-          delete test deployment
+          // delete test deployment
           pipeline.helmDelete(
               name       : env.BRANCH_NAME.toLowerCase()
           )
