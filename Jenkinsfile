@@ -143,10 +143,10 @@ volumes:[
           //   )
           // }
 
-          // delete test deployment
-          // pipeline.helmDelete(
-          //     name       : env.BRANCH_NAME.toLowerCase()
-          // )
+          delete test deployment
+          pipeline.helmDelete(
+              name       : env.BRANCH_NAME.toLowerCase()
+          )
         }
       }
     }
