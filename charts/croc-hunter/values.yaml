@@ -8,11 +8,11 @@ servicePort: 80
 containerPort: 8080
 component: "croc-hunter"
 replicas: 3
-image: "r.cfcr.io/jldeen/jldeen/crochunter"
-imageTag: "master"
-imagePullPolicy: "Always"
+image: r.cfcr.io/jldeen/jldeen/crochunter
+imageTag: master
+imagePullPolicy: Always
 ## If you have a private registry you specify a secret to use
-imagePullSecrets: "codefresh-secrets"
+imagePullSecrets: codefresh-secrets
 cpu: "10m"
 memory: "128Mi"
 ## Ingress settings
