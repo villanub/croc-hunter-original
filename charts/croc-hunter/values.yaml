@@ -9,7 +9,7 @@ containerPort: 8080
 component: "croc-hunter"
 replicas: 3
 image: "r.cfcr.io/jldeen/jldeen/crochunter"
-imageTag: '${{CF_BRANCH_TAG_NORMALIZED}}-${{CF_SHORT_REVISION}}'
+imageTag: '{{CF_BRANCH_TAG_NORMALIZED}}-{{CF_SHORT_REVISION}}'
 imagePullPolicy: "Always"
 ## If you have a private registry you specify a secret to use
 imagePullSecrets: "codefresh-secrets"
