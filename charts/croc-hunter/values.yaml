@@ -27,3 +27,8 @@ ingress:
 pdb:
   enabled: false
   minAvailable: 2
+## Config Map
+commit:
+  sha: "8c149d9"
+  branch: "master"
+  repo : "jldeen/crochunter"
