@@ -8,17 +8,17 @@ servicePort: 80
 containerPort: 8080
 component: "croc-hunter"
 replicas: 3
-image: r.cfcr.io/jldeen/jldeen/crochunter
+image: acrjdtest.azurecr.io/crochunter
 imageTag: master
 imagePullPolicy: Always
 ## If you have a private registry you specify a secret to use
-imagePullSecrets: codefresh-secrets
+imagePullSecrets: croc-hunter-secrets
 cpu: "10m"
 memory: "128Mi"
 ## Ingress settings
 ingress:
   enabled: true
-  hostname: crochunter.aks.az.jessicadeen.com
+  hostname: crochunter.jessicadeen.com
   annotations:
      kubernetes.io/ingress.class: nginx
      kubernetes.io/tls-acme: "true"
