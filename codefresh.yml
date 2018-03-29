@@ -1,0 +1,44 @@
+version: '1.0'
+steps:
+  BuildingDockerImage:
+    title: Building Docker Image
+    type: build
+    image_name: jldeen/crochunter
+    working_directory: ./
+    dockerfile: Dockerfile
+    tag: '${{CF_BRANCH_TAG_NORMALIZED}}-${{CF_SHORT_REVISION}}'
+    build_arguments:
+      - VCS_REF=${{CF_SHORT_REVISION}}
+  Deploy_with_Helm:
+    image: codefresh/cfstep-helm:2.8.1
+    when:
+      branch:
+        only:
+          - master
+    environment:
+      - CHART_NAME=charts/croc-hunter
+      - RELEASE_NAME=crochunter-cf
+      - KUBE_CONTEXT=jdk8s
+      - NAMESPACE=codefresh
+      - custom_imagePullSecrets=codefresh-secrets
+      - custom_image=r.cfcr.io/jldeen/jldeen/crochunter
+      - custom_imageTag=${{CF_BRANCH_TAG_NORMALIZED}}-${{CF_SHORT_REVISION}}
+      - custom_commit_sha=${{CF_SHORT_REVISION}}
+      - custom_ingress_hostname=codefresh.k8s.az.jessicadeen.com
+  Deploy_with_Helm_Dev:
+    image: codefresh/cfstep-helm:2.8.1
+    when:
+      branch:
+        only:
+          - dev
+    environment:
+      - CMD_PS=--dry-run
+      - CHART_NAME=charts/croc-hunter
+      - RELEASE_NAME=crochunter-cf
+      - KUBE_CONTEXT=jdk8s
+      - NAMESPACE=codefresh
+      - custom_imagePullSecrets=codefresh-secrets
+      - custom_image=r.cfcr.io/jldeen/jldeen/crochunter
+      - custom_imageTag=${{CF_BRANCH_TAG_NORMALIZED}}-${{CF_SHORT_REVISION}}
+      - custom_commit_sha=${{CF_SHORT_REVISION}}
+      - custom_ingress_hostname=codefresh.k8s.az.jessicadeen.com
