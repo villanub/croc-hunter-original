@@ -138,9 +138,9 @@ volumes:[
 
           //  Run helm tests
           if (config.app.test) {
-            pipeline.helmTest(
-              name        : env.BRANCH_NAME.toLowerCase()
-            )
+            // pipeline.helmTest(
+            //   name        : env.BRANCH_NAME.toLowerCase()
+            // )
           }
 
           // delete test deployment
@@ -172,9 +172,9 @@ volumes:[
           
           //  Run helm tests
           if (config.app.test) {
-            pipeline.helmTest(
-              name          : config.app.name
-            )
+            // pipeline.helmTest(
+            //   name          : config.app.name
+            // )
           }
         }
       }
