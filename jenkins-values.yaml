@@ -3,19 +3,23 @@
 # helm --namespace jenkins --name jenkins -f ./jenkins-values.yaml install stable/jenkins
 
 Master:
-  ImageTag: "2.89.3"
+  ImageTag: "2.107.1"
   Memory: "512Mi"
-  HostName: jenkins.aks.az.jessicadeen.com
+  HostName: jenkins.k8s.az.jessicadeen.com
   ServiceType: ClusterIP
   InstallPlugins:
-      - kubernetes:1.1.3
+      - kubernetes:1.4.1
+      - pipeline-stage-view:2.4
+      - pipeline-rest-api:2.4
       - workflow-aggregator:2.5
-      - credentials-binding:1.14
-      - git:3.7.0
+      - credentials-binding:1.16
+      - git:3.8.0
       - pipeline-github-lib:1.0
       - ghprb:1.40.0
-      - blueocean:1.4.0
-      - artifactory:2.14.0
+      - blueocean:1.4.2
+      - artifactory:2.15.0
+      - docker:1.1.3
+      - tfs:5.133.0
 
   ScriptApproval:
     - "method groovy.json.JsonSlurperClassic parseText java.lang.String"
@@ -32,9 +36,9 @@ Master:
       kubernetes.io/tls-acme: "true"
 
     TLS:
-      - secretName: jenkins.aks.az.jessicadeen.com
+      - secretName: jenkins.k8s.az.jessicadeen.com
         hosts:
-          - jenkins.aks.az.jessicadeen.com
+          - jenkins.k8s.az.jessicadeen.com
 
 Agent:
-  Enabled: false
+  Enabled: true
