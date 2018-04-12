@@ -88,7 +88,11 @@ volumes:[
             "cpu": config.app.cpu,
             "memory": config.app.memory,
             "ingress.hostname": config.app.hostname,
-            "imagePullSecrets": config.k8s_secret.name,
+            "imagePullSecrets.name": config.k8s_secret.name,
+            "imagePullSecrets.repository": config.container_repo.host,
+            "imagePullSecrets.username": env.USERNAME,
+            "imagePullSecrets.password": env.PASSWORD,
+            "imagePullSecrets.email": "ServicePrincipal@AzureRM",
           ]
         )
 
