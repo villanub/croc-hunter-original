@@ -11,8 +11,9 @@ replicas: 3
 image: acrjdtest.azurecr.io/acrjdtest/crochunter
 imageTag: master
 imagePullPolicy: Always
-## If you have a private registry you specify a secret to use
-imagePullSecrets: croc-hunter-secrets
+## If you have a private registry you specify a secret to use --- add note about how secrets work with jenkinsfile set// 
+# imagePullSecrets: 
+#   name: croc-hunter-secrets
 cpu: "10m"
 memory: "128Mi"
 ## Ingress settings

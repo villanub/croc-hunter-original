@@ -7,6 +7,9 @@
     "test": true,
     "hostname": "crochunter.jessicadeen.com"
   },
+  "k8s_secret": {
+    "name": "croc-hunter-secrets"
+  },
   "container_repo": {
     "host": "acrjdtest.azurecr.io",
     "master_acct": "acrjdtest",
