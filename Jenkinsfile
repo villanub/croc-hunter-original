@@ -125,7 +125,7 @@ volumes:[
           sh "kubectl create namespace ${env.BRANCH_NAME.toLowerCase()}"
           
           // Copy secret from known namespace to PR namespace
-          sh "kubectl get secrets -o json --namespace ${config.app.name} | jq '.items[].metadata.namespace = ${env.BRANCH_NAME.toLowerCase()}' | kubectl create -f  -"
+          sh "kubectl get secrets -o yaml --namespace ${config.app.name} | sed 's/namespace: ${config.app.name}/namespace: ${env.BRANCH_NAME.toLowerCase()}/' | kubectl create -f  -"
           }
         container('helm') {
 
