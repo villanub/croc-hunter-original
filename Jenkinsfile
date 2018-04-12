@@ -174,8 +174,8 @@ volumes:[
                         usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
           pipeline.helmDeploy(
             dry_run       : false,
-            name          : env.BRANCH_NAME.toLowerCase(),
-            namespace     : env.BRANCH_NAME.toLowerCase(),
+            name          : config.app.name,
+            namespace     : config.app.name,
             chart_dir     : chart_dir,
             set           : [
               "imageTag": image_tags_list.get(0),
