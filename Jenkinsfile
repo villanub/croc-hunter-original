@@ -151,9 +151,9 @@ volumes:[
           } 
           //  Run helm tests
           if (config.app.test) {
-            // pipeline.helmTest(
-            //   name        : env.BRANCH_NAME.toLowerCase()
-            // )
+            pipeline.helmTest(
+              name        : env.BRANCH_NAME.toLowerCase()
+            )
           }
 
           // delete test deployment
@@ -185,17 +185,17 @@ volumes:[
               "ingress.hostname": config.app.hostname,
               "imagePullSecrets.name": config.k8s_secret.name,
               "imagePullSecrets.repository": config.container_repo.host,
-              "imagePullSecrets.username": ${env.USERNAME},
-              "imagePullSecrets.password": ${env.PASSWORD},
+              "imagePullSecrets.username": env.USERNAME,
+              "imagePullSecrets.password": env.PASSWORD,
               "imagePullSecrets.email": "ServicePrincipal@AzureRM",
             ]
           )
           
             //  Run helm tests
             if (config.app.test) {
-              // pipeline.helmTest(
-              //   name          : config.app.name
-              // )
+              pipeline.helmTest(
+                name          : config.app.name
+              )
             }
           }
         }
