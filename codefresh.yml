@@ -16,11 +16,11 @@ steps:
         only:
           - master
     environment:
-      - CHART_NAME=charts/croc-hunter
-      - RELEASE_NAME=crochunter-cf
-      - KUBE_CONTEXT=jdk8s
-      - NAMESPACE=codefresh
-      - custom_imagePullSecrets=codefresh-secrets
+      - custom_imagePullSecrets_name=codefresh-secrets
+      - custom_imagePullSecrets_username=${{SECRET_UN}}
+      - custom_imagePullSecrets_password=${{SECRET_PW}}
+      - custom_imagePullSecrets_repository=${{SECRET_REPO}}
+      - custom_imagePullSecrets_email=ServicePrincipal@AzureRM
       - custom_image=r.cfcr.io/jldeen/jldeen/crochunter
       - custom_imageTag=${{CF_BRANCH_TAG_NORMALIZED}}-${{CF_SHORT_REVISION}}
       - custom_commit_sha=${{CF_SHORT_REVISION}}
@@ -33,11 +33,11 @@ steps:
           - dev
     environment:
       - CMD_PS=--dry-run
-      - CHART_NAME=charts/croc-hunter
-      - RELEASE_NAME=crochunter-cf
-      - KUBE_CONTEXT=jdk8s
-      - NAMESPACE=codefresh
-      - custom_imagePullSecrets=codefresh-secrets
+      - custom_imagePullSecrets_name=codefresh-secrets
+      - custom_imagePullSecrets_username=${{SECRET_UN}}
+      - custom_imagePullSecrets_password=${{SECRET_PW}}
+      - custom_imagePullSecrets_repository=${{SECRET_REPO}}
+      - custom_imagePullSecrets_email=ServicePrincipal@AzureRM
       - custom_image=r.cfcr.io/jldeen/jldeen/crochunter
       - custom_imageTag=${{CF_BRANCH_TAG_NORMALIZED}}-${{CF_SHORT_REVISION}}
       - custom_commit_sha=${{CF_SHORT_REVISION}}
