@@ -120,12 +120,14 @@ volumes:[
 
     if (env.BRANCH_NAME =~ "PR-*" ) {
       stage ('deploy to k8s') {
-        container('helm') {
-          // Create PR namespace
+        // Create PR namespace
+          container('kubectl') {
           sh "kubectl create namespace ${env.BRANCH_NAME.toLowerCase()}"
           
           // Copy secret from known namespace to PR namespace
           sh "kubectl get secrets -o json --namespace ${config.app.name} | jq '.items[].metadata.namespace = ${env.BRANCH_NAME.toLowerCase()}' | kubectl create -f  -"
+          }
+        container('helm') {
 
           // Deploy using Helm chart
           pipeline.helmDeploy(
