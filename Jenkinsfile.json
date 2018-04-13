@@ -7,6 +7,9 @@
     "test": true,
     "hostname": "croc-hunter.acs.az.estrado.io"
   },
+  "k8s_secret": {
+    "name": "croc-hunter-secrets"
+  },
   "container_repo": {
     "host": "quay.io",
     "master_acct": "lachie83",
