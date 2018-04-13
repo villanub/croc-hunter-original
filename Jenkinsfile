@@ -8,10 +8,10 @@
 def pipeline = new io.estrado.Pipeline()
 
 podTemplate(label: 'jenkins-pipeline', containers: [
-    containerTemplate(name: 'jnlp', image: 'lachlanevenson/jnlp-slave:3.10-1-alpine', args: '${computer.jnlpmac} ${computer.name}', workingDir: '/home/jenkins', resourceRequestCpu: '200m', resourceLimitCpu: '300m', resourceRequestMemory: '256Mi', resourceLimitMemory: '512Mi'),
-    containerTemplate(name: 'docker', image: 'docker:1.12.6', command: 'cat', ttyEnabled: true),
+    containerTemplate(name: 'jnlp', image: 'jenkinsci/jnlp-slave:3.19-1-alpine', args: '${computer.jnlpmac} ${computer.name}', workingDir: '/home/jenkins', resourceRequestCpu: '200m', resourceLimitCpu: '300m', resourceRequestMemory: '256Mi', resourceLimitMemory: '512Mi'),
+    containerTemplate(name: 'docker', image: 'docker:latest', command: 'cat', ttyEnabled: true),
     containerTemplate(name: 'golang', image: 'golang:1.8.3', command: 'cat', ttyEnabled: true),
-    containerTemplate(name: 'helm', image: 'lachlanevenson/k8s-helm:v2.6.0', command: 'cat', ttyEnabled: true),
+    containerTemplate(name: 'helm', image: 'lachlanevenson/k8s-helm:v2.8.1', command: 'cat', ttyEnabled: true),
     containerTemplate(name: 'kubectl', image: 'lachlanevenson/k8s-kubectl:v1.4.8', command: 'cat', ttyEnabled: true)
 ],
 volumes:[
@@ -88,6 +88,11 @@ volumes:[
             "cpu": config.app.cpu,
             "memory": config.app.memory,
             "ingress.hostname": config.app.hostname,
+            "imagePullSecrets.name": config.k8s_secret.name,
+            "imagePullSecrets.repository": config.container_repo.host,
+            "imagePullSecrets.username": env.USERNAME,
+            "imagePullSecrets.password": env.PASSWORD,
+            "imagePullSecrets.email": "ServicePrincipal@AzureRM",
           ]
         )
 
@@ -114,23 +119,17 @@ volumes:[
             auth_id   : config.container_repo.jenkins_creds_id,
             image_scanning: config.container_repo.image_scanning
         )
-
-        // anchore image scanning configuration
-        println "Add container image tags to anchore scanning list"
-        
-        def tag = image_tags_list.get(0)
-        def imageLine = "${config.container_repo.host}/${acct}/${config.container_repo.repo}:${tag}" + ' ' + env.WORKSPACE + '/Dockerfile'
-        writeFile file: 'anchore_images', text: imageLine
-        anchore name: 'anchore_images', inputQueries: [[query: 'list-packages all'], [query: 'list-files all'], [query: 'cve-scan all'], [query: 'show-pkg-diffs base']]
-
       }
 
     }
 
     if (env.BRANCH_NAME =~ "PR-*" ) {
       stage ('deploy to k8s') {
+        // Deploy using Helm chart
         container('helm') {
-          // Deploy using Helm chart
+                    // Create secret from Jenkins credentials manager
+          withCredentials([[$class          : 'UsernamePasswordMultiBinding', credentialsId: config.container_repo.jenkins_creds_id,
+                        usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
           pipeline.helmDeploy(
             dry_run       : false,
             name          : env.BRANCH_NAME.toLowerCase(),
@@ -142,9 +141,14 @@ volumes:[
               "cpu": config.app.cpu,
               "memory": config.app.memory,
               "ingress.hostname": config.app.hostname,
+              "imagePullSecrets.name": config.k8s_secret.name,
+              "imagePullSecrets.repository": config.container_repo.host,
+              "imagePullSecrets.username": env.USERNAME,
+              "imagePullSecrets.password": env.PASSWORD,
+              "imagePullSecrets.email": "ServicePrincipal@AzureRM",
             ]
           )
-
+          } 
           //  Run helm tests
           if (config.app.test) {
             pipeline.helmTest(
@@ -163,8 +167,11 @@ volumes:[
     // deploy only the master branch
     if (env.BRANCH_NAME == 'master') {
       stage ('deploy to k8s') {
-        container('helm') {
           // Deploy using Helm chart
+        container('helm') {
+                    // Create secret from Jenkins credentials manager
+          withCredentials([[$class          : 'UsernamePasswordMultiBinding', credentialsId: config.container_repo.jenkins_creds_id,
+                        usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
           pipeline.helmDeploy(
             dry_run       : false,
             name          : config.app.name,
@@ -176,14 +183,20 @@ volumes:[
               "cpu": config.app.cpu,
               "memory": config.app.memory,
               "ingress.hostname": config.app.hostname,
+              "imagePullSecrets.name": config.k8s_secret.name,
+              "imagePullSecrets.repository": config.container_repo.host,
+              "imagePullSecrets.username": env.USERNAME,
+              "imagePullSecrets.password": env.PASSWORD,
+              "imagePullSecrets.email": "ServicePrincipal@AzureRM",
             ]
           )
           
-          //  Run helm tests
-          if (config.app.test) {
-            pipeline.helmTest(
-              name          : config.app.name
-            )
+            //  Run helm tests
+            if (config.app.test) {
+              pipeline.helmTest(
+                name          : config.app.name
+              )
+            }
           }
         }
       }
