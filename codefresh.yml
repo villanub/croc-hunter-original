@@ -3,7 +3,7 @@ steps:
   BuildingDockerImage:
     title: Building Docker Image
     type: build
-    image_name: jldeen/crochunter-build
+    image_name: jldeen/crochunter
     working_directory: ./
     dockerfile: Dockerfile
     tag: '${{CF_BRANCH_TAG_NORMALIZED}}-${{CF_SHORT_REVISION}}'
@@ -13,14 +13,14 @@ steps:
     title: Pushing Docker Image
     type: push
     candidate: ${{BuildingDockerImage}}
-    image_name: jldeen/crochunter-build
+    image_name: jldeen/crochunter
     tag: '${{CF_BRANCH_TAG_NORMALIZED}}-${{CF_SHORT_REVISION}}'
   Deploy_with_Helm:
     image: codefresh/cfstep-helm:2.8.1
     when:
       branch:
         only:
-          - master
+          - build18-demo
     environment:
       - custom_imageTag=${{CF_BRANCH_TAG_NORMALIZED}}-${{CF_SHORT_REVISION}}
       - custom_commit_sha=${{CF_SHORT_REVISION}}

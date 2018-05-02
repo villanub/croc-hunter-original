@@ -8,7 +8,7 @@ servicePort: 80
 containerPort: 8080
 component: "croc-hunter"
 replicas: 3
-image: acrjdtest.azurecr.io/jldeen/crochunter-build
+image: acrjdtest.azurecr.io/jldeen/crochunter
 imageTag: master
 imagePullPolicy: Always
 #If you have a private registry you specify a secret to use --- add note about how secrets work with jenkinsfile set// 
