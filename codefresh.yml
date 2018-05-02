@@ -12,7 +12,7 @@ steps:
   PushingDockerImage:
     title: Pushing Docker Image
     type: push
-    candidate: ${{build_step}}
+    candidate: ${{BuildingDockerImage}}
     image_name: jldeen/crochunter-build
     tag: '${{CF_BRANCH_TAG_NORMALIZED}}-${{CF_SHORT_REVISION}}'
   Deploy_with_Helm:
