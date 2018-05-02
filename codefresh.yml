@@ -24,3 +24,7 @@ steps:
     environment:
       - custom_imageTag=${{CF_BRANCH_TAG_NORMALIZED}}-${{CF_SHORT_REVISION}}
       - custom_commit_sha=${{CF_SHORT_REVISION}}
+      - custom_imagePullSecrets_username=${{REPO_USER}}
+      - custom_imagePullSecrets_password=${{REPO_PASS}}
+      - custom_imagePullSecrets_repository=${{REPOSITORY}}
+      - custom_imagePullSecrets_email=${{REPO_EMAIL}}
