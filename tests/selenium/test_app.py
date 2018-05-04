@@ -66,4 +66,4 @@ def test_confirm_release_name(browser):
 def test_confirm_commit_sha(browser):
     browser.get("https://{}".format(hostname))
     element = browser.find_element(By.XPATH, '//div[@class="details"]')
-    assert '852cea9' in element.text
+    assert commit_sha in element.text

@@ -1,47 +1,47 @@
 version: '1.0'
 steps:
-  # BuildingDockerImage:
-  #   title: Building Docker Image
-  #   type: build
-  #   image_name: jldeen/crochunter
-  #   working_directory: ./
-  #   dockerfile: Dockerfile
-  #   tag: '${{CF_BRANCH_TAG_NORMALIZED}}-${{CF_SHORT_REVISION}}'
-  #   build_arguments:
-  #     - VCS_REF=${{CF_SHORT_REVISION}}
-  # Deploy_with_Helm:
-  #   image: codefresh/cfstep-helm:2.8.1
-  #   when:
-  #     branch:
-  #       only:
-  #         - master
-  #   environment:
-  #     - custom_imagePullSecrets_name=codefresh-secrets
-  #     - custom_imagePullSecrets_username=${{SECRET_UN}}
-  #     - custom_imagePullSecrets_password=${{SECRET_PW}}
-  #     - custom_imagePullSecrets_repository=${{SECRET_REPO}}
-  #     - custom_imagePullSecrets_email=ServicePrincipal@AzureRM
-  #     - custom_image=r.cfcr.io/jldeen/jldeen/crochunter
-  #     - custom_imageTag=${{CF_BRANCH_TAG_NORMALIZED}}-${{CF_SHORT_REVISION}}
-  #     - custom_commit_sha=${{CF_SHORT_REVISION}}
-  #     - custom_ingress_hostname=${{INGRESS_HOSTNAME}}
-  # Deploy_with_Helm_Dev:
-  #   image: codefresh/cfstep-helm:2.8.1
-  #   when:
-  #     branch:
-  #       only:
-  #         - dev
-  #   environment:
-  #     - CMD_PS=--dry-run
-  #     - custom_imagePullSecrets_name=codefresh-secrets
-  #     - custom_imagePullSecrets_username=${{SECRET_UN}}
-  #     - custom_imagePullSecrets_password=${{SECRET_PW}}
-  #     - custom_imagePullSecrets_repository=${{SECRET_REPO}}
-  #     - custom_imagePullSecrets_email=ServicePrincipal@AzureRM
-  #     - custom_image=r.cfcr.io/jldeen/jldeen/crochunter
-  #     - custom_imageTag=${{CF_BRANCH_TAG_NORMALIZED}}-${{CF_SHORT_REVISION}}
-  #     - custom_commit_sha=${{CF_SHORT_REVISION}}
-  #     - custom_ingress_hostname=${{INGRESS_HOSTNAME}}
+  BuildingDockerImage:
+    title: Building Docker Image
+    type: build
+    image_name: jldeen/crochunter
+    working_directory: ./
+    dockerfile: Dockerfile
+    tag: '${{CF_BRANCH_TAG_NORMALIZED}}-${{CF_SHORT_REVISION}}'
+    build_arguments:
+      - VCS_REF=${{CF_SHORT_REVISION}}
+  Deploy_with_Helm:
+    image: codefresh/cfstep-helm:2.8.1
+    when:
+      branch:
+        only:
+          - master
+    environment:
+      - custom_imagePullSecrets_name=codefresh-secrets
+      - custom_imagePullSecrets_username=${{SECRET_UN}}
+      - custom_imagePullSecrets_password=${{SECRET_PW}}
+      - custom_imagePullSecrets_repository=${{SECRET_REPO}}
+      - custom_imagePullSecrets_email=ServicePrincipal@AzureRM
+      - custom_image=r.cfcr.io/jldeen/jldeen/crochunter
+      - custom_imageTag=${{CF_BRANCH_TAG_NORMALIZED}}-${{CF_SHORT_REVISION}}
+      - custom_commit_sha=${{CF_SHORT_REVISION}}
+      - custom_ingress_hostname=${{INGRESS_HOSTNAME}}
+  Deploy_with_Helm_Dev:
+    image: codefresh/cfstep-helm:2.8.1
+    when:
+      branch:
+        only:
+          - dev
+    environment:
+      - CMD_PS=--dry-run
+      - custom_imagePullSecrets_name=codefresh-secrets
+      - custom_imagePullSecrets_username=${{SECRET_UN}}
+      - custom_imagePullSecrets_password=${{SECRET_PW}}
+      - custom_imagePullSecrets_repository=${{SECRET_REPO}}
+      - custom_imagePullSecrets_email=ServicePrincipal@AzureRM
+      - custom_image=r.cfcr.io/jldeen/jldeen/crochunter
+      - custom_imageTag=${{CF_BRANCH_TAG_NORMALIZED}}-${{CF_SHORT_REVISION}}
+      - custom_commit_sha=${{CF_SHORT_REVISION}}
+      - custom_ingress_hostname=${{INGRESS_HOSTNAME}}
   BuildingTestDockerImage:
     title: Building Test Docker Image
     type: build
@@ -93,7 +93,7 @@ steps:
         image: ${{BuildingTestDockerImage}}
         working_dir: ${{CF_VOLUME_PATH}}/${{CF_REPO_NAME}}
         environment:
-          CF_SHORT_REVISION: ${{CF_SHORT_REVISION}}
+          CF_SHORT_REVISION: ${{}}
           INGRESS_HOSTNAME: ${{INGRESS_HOSTNAME}}
           RELEASE_NAME: ${{RELEASE_NAME}}
         command: bash -c 'IFS=" " read -a browserarray <<< "${{BROWSERS}}" && for browser in "$${browserarray[@]}"; do BROWSER=$$browser python -m pytest -vvv --html=./selenium-report-$${browser}.html --self-contained-html ./tests/selenium/test_app.py; done'
@@ -110,7 +110,7 @@ steps:
         set:
           - '${{BuildingTestDockerImage.imageId}}':
               - SELENIUM_DVTS: false
-    # when:
-    #   branch:
-    #     only:
-    #       - master
+    when:
+      branch:
+        only:
+          - master
