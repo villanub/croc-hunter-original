@@ -12,8 +12,8 @@ image: acrjdtest.azurecr.io/acrjdtest/crochunter
 imageTag: master
 imagePullPolicy: Always
 ## If you have a private registry you specify a secret to use --- add note about how secrets work with jenkinsfile set// 
-# imagePullSecrets: 
-#   name: croc-hunter-secrets
+imagePullSecrets: 
+  name: swampup18-codefresh
 cpu: "10m"
 memory: "128Mi"
 ## Ingress settings
