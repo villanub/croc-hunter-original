@@ -10,38 +10,37 @@ steps:
     build_arguments:
       - VCS_REF=${{CF_SHORT_REVISION}}
   Deploy_with_Helm:
-    image: codefresh/cfstep-helm:2.8.1
+    image: codefresh/cfstep-helm:2.9.0
     when:
       branch:
         only:
           - master
     environment:
-      - custom_imagePullSecrets_name=codefresh-secrets
-      - custom_imagePullSecrets_username=${{SECRET_UN}}
-      - custom_imagePullSecrets_password=${{SECRET_PW}}
-      - custom_imagePullSecrets_repository=${{SECRET_REPO}}
-      - custom_imagePullSecrets_email=ServicePrincipal@AzureRM
-      - custom_image=r.cfcr.io/jldeen/jldeen/crochunter
       - custom_imageTag=${{CF_BRANCH_TAG_NORMALIZED}}-${{CF_SHORT_REVISION}}
       - custom_commit_sha=${{CF_SHORT_REVISION}}
+      - custom_imagePullSecrets_username=${{REPO_USER}}
+      - custom_imagePullSecrets_password=${{REPO_PASS}}
+      - custom_imagePullSecrets_repository=${{REPOSITORY}}
+      - custom_imagePullSecrets_email=${{REPO_EMAIL}}
+      - custom_image=jfrogjd-crochunter.jfrog.io/swampup18/crochunter
       - custom_ingress_hostname=${{INGRESS_HOSTNAME}}
   Deploy_with_Helm_Dev:
-    image: codefresh/cfstep-helm:2.8.1
+    image: codefresh/cfstep-helm:2.9.0
     when:
       branch:
         only:
           - dev
     environment:
       - CMD_PS=--dry-run
-      - custom_imagePullSecrets_name=codefresh-secrets
-      - custom_imagePullSecrets_username=${{SECRET_UN}}
-      - custom_imagePullSecrets_password=${{SECRET_PW}}
-      - custom_imagePullSecrets_repository=${{SECRET_REPO}}
-      - custom_imagePullSecrets_email=ServicePrincipal@AzureRM
-      - custom_image=r.cfcr.io/jldeen/jldeen/crochunter
       - custom_imageTag=${{CF_BRANCH_TAG_NORMALIZED}}-${{CF_SHORT_REVISION}}
       - custom_commit_sha=${{CF_SHORT_REVISION}}
+      - custom_imagePullSecrets_username=${{REPO_USER}}
+      - custom_imagePullSecrets_password=${{REPO_PASS}}
+      - custom_imagePullSecrets_repository=${{REPOSITORY}}
+      - custom_imagePullSecrets_email=${{REPO_EMAIL}}
+      - custom_image=jfrogjd-crochunter.jfrog.io/swampup18/crochunter
       - custom_ingress_hostname=${{INGRESS_HOSTNAME}}
+
   BuildingTestDockerImage:
     title: Building Test Docker Image
     type: build
