@@ -3,12 +3,19 @@ steps:
   BuildingDockerImage:
     title: Building Docker Image
     type: build
-    image_name: jldeen/crochunter
+    image_name: swampup18/crochunter
     working_directory: ./
     dockerfile: Dockerfile
     tag: '${{CF_BRANCH_TAG_NORMALIZED}}-${{CF_SHORT_REVISION}}'
     build_arguments:
       - VCS_REF=${{CF_SHORT_REVISION}}
+  PushingDockerImage:
+    title: Promote to Artifactory
+    type: push
+    candidate: ${{BuildingDockerImage}}
+    image_name: swampup18/crochunter
+    tag: '${{CF_BRANCH_TAG_NORMALIZED}}-${{CF_SHORT_REVISION}}'
+    registry: jfrog-jd-art
   Deploy_with_Helm:
     image: codefresh/cfstep-helm:2.9.0
     when:
