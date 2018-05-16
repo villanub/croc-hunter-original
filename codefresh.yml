@@ -150,12 +150,12 @@ steps:
           codefresh auth create-context --api-key ${{CODEFRESH_CLI_KEY}} &&
           jfrog rt build-publish --server-id=jfrogjd --build-url="${{CF_BUILD_URL}}" --env-exclude="*key*;*pass*;" ${{CF_REPO_NAME}} ${{CF_BUILD_ID}} |& tee publish.txt &&
           codefresh annotate image $$(docker images -q "${{REPOSITORY}}/swampup18/crochunter:${{CF_BRANCH_TAG_NORMALIZED}}-${{CF_SHORT_REVISION}}") 
-          --label ARTIFACTORY_BUILD_URL="$$(sed -n "s/^.*http/http/p" publish.txt)" &&
+          --label JFROG_ARTIFACTORY_BUILD_URL="$$(sed -n "s/^.*http/http/p" publish.txt)" &&
           jfrog rt build-scan --server-id=jfrogjd ${{CF_REPO_NAME}} ${{CF_BUILD_ID}} | tee results.json && 
           codefresh annotate image $$(docker images -q "${{REPOSITORY}}/swampup18/crochunter:${{CF_BRANCH_TAG_NORMALIZED}}-${{CF_SHORT_REVISION}}") 
-          --label XRAY_ALERTS="$$(jq ".summary.total_alerts" results.json)"
-          --label XRAY_MESSAGE="$$(jq ".summary.message" results.json)"
-          --label XRAY_DETAILS_URL="$$(jq ".summary.more_details_url" results.json)" && 
+          --label JFROG_XRAY_ALERTS="$$(jq ".summary.total_alerts" results.json)"
+          --label JFROG_XRAY_MESSAGE="$$(jq ".summary.message" results.json)"
+          --label JFROG_XRAY_DETAILS_URL="$$(jq ".summary.more_details_url" results.json)" && 
           if [[ "$$(jq ".summary.fail_build" results.json)" = *true* ]]; then exit 1; else exit 0; fi
           '
         depends_on:
@@ -169,9 +169,9 @@ steps:
       metadata:
         set:
           - '${{BuildingDockerImage.imageId}}':
-            - XRAY_SCAN: true
+            - JFROG_XRAY_SCAN: true
     on_fail:
       metadata:
         set:
           - '${{BuildingDockerImage.imageId}}':
-            - XRAY_SCAN: false
+            - JFROG_XRAY_SCAN: false
