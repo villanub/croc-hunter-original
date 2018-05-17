@@ -143,7 +143,7 @@ steps:
           docker login --username ${{REPO_USER}} --password "${{REPO_PASS}}" ${{REPOSITORY}} && 
           jfrog rt build-collect-env ${{CF_REPO_NAME}} ${{CF_BUILD_ID}} && 
           jfrog rt build-add-git ${{CF_REPO_NAME}} ${{CF_BUILD_ID}} && 
-          jfrog rt build-add-dependencies ${{CF_REPO_NAME}} ${{CF_BUILD_ID}} *report.html && 
+          jfrog rt build-add-dependencies ${{CF_REPO_NAME}} ${{CF_BUILD_ID}} *report* && 
           jfrog rt config jfrogjd --url="https://jfrogjd.jfrog.io/jfrogjd" --user=${{REPO_USER}} --password="${{REPO_PASS}}" && 
           jfrog rt docker-push --server-id=jfrogjd --build-name=${{CF_REPO_NAME}} --build-number=${{CF_BUILD_ID}} "${{REPOSITORY}}/swampup18/crochunter:${{CF_BRANCH_TAG_NORMALIZED}}-${{CF_SHORT_REVISION}}" crochunter && 
           jfrog rt upload --server-id=jfrogjd --build-name=${{CF_REPO_NAME}} --build-number=${{CF_BUILD_ID}} "$PACKAGE" helm-repo && 
