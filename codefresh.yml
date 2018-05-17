@@ -150,7 +150,7 @@ steps:
           codefresh auth create-context --api-key ${{CODEFRESH_CLI_KEY}} &&
           jfrog rt build-publish --server-id=jfrogjd --build-url="${{CF_BUILD_URL}}" --env-exclude="*key*;*pass*;" ${{CF_REPO_NAME}} ${{CF_BUILD_ID}} |& tee publish.txt &&
           codefresh annotate image $$(docker images -q "${{REPOSITORY}}/swampup18/crochunter:${{CF_BRANCH_TAG_NORMALIZED}}-${{CF_SHORT_REVISION}}") 
-          --label JFROG_ARTIFACTORY_BUILD_URL="$$(sed -n "s/^.*http/http/p" publish.txt)" &&
+          --label JF_BUILD="$$(sed -n "s/^.*http/http/p" publish.txt)" &&
           jfrog rt build-scan --server-id=jfrogjd ${{CF_REPO_NAME}} ${{CF_BUILD_ID}} | tee results.json && 
           codefresh annotate image $$(docker images -q "${{REPOSITORY}}/swampup18/crochunter:${{CF_BRANCH_TAG_NORMALIZED}}-${{CF_SHORT_REVISION}}") 
           --label JFROG_XRAY_ALERTS="$$(jq ".summary.total_alerts" results.json)"
