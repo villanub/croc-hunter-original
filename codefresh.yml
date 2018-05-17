@@ -39,7 +39,7 @@ steps:
       metadata:
         set:
           - '${{BuildingDockerImage.imageId}}':
-            - CLOUD: Azure AKS
+            - DEPLOYED_TO_AZURE_AKS: true
   Deploy_with_Helm_Dev:
     image: codefresh/cfstep-helm:2.9.0
     when:
