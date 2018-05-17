@@ -105,7 +105,7 @@ steps:
           CF_SHORT_REVISION: ${{CF_SHORT_REVISION}}
           INGRESS_HOSTNAME: ${{INGRESS_HOSTNAME}}
           RELEASE_NAME: ${{RELEASE_NAME}}
-        command: bash -c 'IFS=" " read -a browserarray <<< "${{BROWSERS}}" && for browser in "$${browserarray[@]}"; do BROWSER=$$browser python -m pytest -vvv --html=./selenium-report-$${browser}.html --self-contained-html ./tests/selenium/test_app.py; done'
+        command: bash -c 'IFS=" " read -a browserarray <<< "${{BROWSERS}}" && for browser in "$${browserarray[@]}"; do BROWSER=$$browser python -m pytest -vvv --html=./${{CF_BUILD_ID}}/selenium-report-$${browser}.html --self-contained-html ./tests/selenium/test_app.py; done'
         volumes:
           - '${{CF_VOLUME_NAME}}:/codefresh/volume'
     add_flow_volume_to_composition: true
@@ -146,7 +146,6 @@ steps:
           jfrog rt config jfrogjd --url="https://jfrogjd.jfrog.io/jfrogjd" --user=${{REPO_USER}} --password="${{REPO_PASS}}" && 
           jfrog rt docker-push --server-id=jfrogjd --build-name=${{CF_REPO_NAME}} --build-number=${{CF_BUILD_ID}} "${{REPOSITORY}}/swampup18/crochunter:${{CF_BRANCH_TAG_NORMALIZED}}-${{CF_SHORT_REVISION}}" crochunter && 
           jfrog rt upload --server-id=jfrogjd --build-name=${{CF_REPO_NAME}} --build-number=${{CF_BUILD_ID}} "$PACKAGE" helm-repo && 
-          touch report.html &&
           jfrog rt upload --server-id=jfrogjd --build-name=${{CF_REPO_NAME}} --build-number=${{CF_BUILD_ID}} --regexp=true *.html codefresh-build-artifacts && 
           codefresh auth create-context --api-key ${{CODEFRESH_CLI_KEY}} &&
           jfrog rt build-publish --server-id=jfrogjd --build-url="${{CF_BUILD_URL}}" --env-exclude="*key*;*pass*;" ${{CF_REPO_NAME}} ${{CF_BUILD_ID}} |& tee publish.txt &&
