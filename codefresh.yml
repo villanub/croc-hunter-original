@@ -175,8 +175,10 @@ steps:
         set:
           - '${{BuildingDockerImage.imageId}}':
             - JFROG_XRAY_SCAN: true
+            - CF_QUALITY: true
     on_fail:
       metadata:
         set:
           - '${{BuildingDockerImage.imageId}}':
             - JFROG_XRAY_SCAN: false
+            - CF_QUALITY: false
