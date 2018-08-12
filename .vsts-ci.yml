@@ -2,7 +2,6 @@ resources:
 - repo: self
 queue:
   name: Hosted Linux Preview
-  condition: succeeded()
 steps:
 - task: Docker@0
   displayName: Build an image
