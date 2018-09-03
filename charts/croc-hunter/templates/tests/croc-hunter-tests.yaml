@@ -7,6 +7,7 @@ metadata:
 spec:
   containers:
     - name: {{ template "fullname" . }}-web-test
-      image: busybox
-      command: ["wget",  "--spider", "{{ template "fullname" . }}:{{.Values.servicePort}}"]
+      image: tutum/curl:trusty
+      command: ["curl"]
+      args: ["retry 3", "retry-delay 10", "{{ template "fullname" . }}:{{.Values.servicePort}}"]
   restartPolicy: Never
