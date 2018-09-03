@@ -44,6 +44,10 @@ or *.test.com in A <nginx ingress svc external-IP>
 
 ```
 
+## Set Jenkins cluster rolebinding
+```
+kubectl create clusterrolebinding jenkins --clusterrole cluster-admin --serviceaccount=jenkins-demo:default 
+```
 
 ## Update jenkins.values.yaml
 ```
