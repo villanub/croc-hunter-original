@@ -8,5 +8,5 @@ spec:
   containers:
     - name: {{ template "fullname" . }}-web-test
       image: tutum/curl:trusty
-      command: ["sh", "curl",  "--retry 3", "--retry-delay 10", "{{ template "fullname" . }}:{{.Values.servicePort}}{{ default "" .Values.ingress.hostname }}"]
+      command: ["curl",  "--retry 3", "--retry-delay 10", "{{ template "fullname" . }}:{{.Values.servicePort}}{{ default "" .Values.ingress.hostname }}"]
   restartPolicy: Never
