@@ -72,8 +72,11 @@ Create username and password credentials in Jenkins Credential Manager per Jenki
 Reference to the secret name must also be added to the chart values.yaml or set on install.
 
 Go to ```{JENKINSURL}/credentials```
+
 Click System
+
 Click Global credentials
+
 Click add credentials
 
 or
