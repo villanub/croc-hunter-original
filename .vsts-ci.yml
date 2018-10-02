@@ -16,7 +16,7 @@ steps:
   displayName: Push an image
   inputs:
     azureSubscription: 'Microsoft Azure Enterprise'
-    azureContainerRegistry: '{"loginServer":"acrjdtest.azurecr.io", "id" : "/subscriptions/c39e4605-fe9c-4bda-a716-739102ebd6ee/resourceGroups/benaksdemoa448/providers/Microsoft.ContainerRegistry/registries/benaksdemob75b"}'
+    azureContainerRegistry: '{"loginServer":"benaksdemob75b.azurecr.io", "id" : "/subscriptions/c39e4605-fe9c-4bda-a716-739102ebd6ee/resourceGroups/benaksdemoa448/providers/Microsoft.ContainerRegistry/registries/benaksdemob75b"}'
     action: 'Push an image'
     includeLatestTag: true
 
