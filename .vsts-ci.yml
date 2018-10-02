@@ -6,8 +6,8 @@ steps:
 - task: Docker@0
   displayName: Build an image
   inputs:
-    azureSubscription: 'Microsoft Azure Internal Consumption (998e0f50-cedb-4e50-a461-52ef20a0478b)'
-    azureContainerRegistry: '{"loginServer":"acrjdtest.azurecr.io", "id" : "/subscriptions/998e0f50-cedb-4e50-a461-52ef20a0478b/resourceGroups/acrjdtest/providers/Microsoft.ContainerRegistry/registries/acrjdtest"}'
+    azureSubscription: 'Microsoft Azure Enterprise'
+    azureContainerRegistry: '{"loginServer":"benaksdemob75b.azurecr.io", "id" : "/subscriptions/c39e4605-fe9c-4bda-a716-739102ebd6ee/resourceGroups/benaksdemoa448/providers/Microsoft.ContainerRegistry/registries/benaksdemob75b"}'
     dockerFile: Dockerfile
     buildArguments: 'VCS_REF=$(Build.SourceVersion)'
     includeLatestTag: true
@@ -15,8 +15,8 @@ steps:
 - task: Docker@0
   displayName: Push an image
   inputs:
-    azureSubscription: 'Microsoft Azure Internal Consumption (998e0f50-cedb-4e50-a461-52ef20a0478b)'
-    azureContainerRegistry: '{"loginServer":"acrjdtest.azurecr.io", "id" : "/subscriptions/998e0f50-cedb-4e50-a461-52ef20a0478b/resourceGroups/acrjdtest/providers/Microsoft.ContainerRegistry/registries/acrjdtest"}'
+    azureSubscription: 'Microsoft Azure Enterprise'
+    azureContainerRegistry: '{"loginServer":"acrjdtest.azurecr.io", "id" : "/subscriptions/c39e4605-fe9c-4bda-a716-739102ebd6ee/resourceGroups/benaksdemoa448/providers/Microsoft.ContainerRegistry/registries/benaksdemob75b"}'
     action: 'Push an image'
     includeLatestTag: true
 
@@ -28,9 +28,9 @@ steps:
 - task: HelmDeploy@0
   displayName: helm init --client-only
   inputs:
-    azureSubscription: 'jessde (dfb5d696-98d8-447c-a14d-56f131f3c4a5)'
-    azureResourceGroup: jdk8s
-    kubernetesCluster: jdk8s
+    azureSubscription: 'c39e4605-fe9c-4bda-a716-739102ebd6ee'
+    azureResourceGroup: benaksdemoa448
+    kubernetesCluster: ben-aks-demo
     command: init
     upgradeTiller: false
     arguments: '--client-only'
@@ -38,9 +38,9 @@ steps:
 - task: HelmDeploy@0
   displayName: helm package
   inputs:
-    azureSubscription: 'jessde (dfb5d696-98d8-447c-a14d-56f131f3c4a5)'
-    azureResourceGroup: jdk8s
-    kubernetesCluster: jdk8s
+    azureSubscription: 'c39e4605-fe9c-4bda-a716-739102ebd6ee'
+    azureResourceGroup: benaksdemoa448
+    kubernetesCluster: ben-aks-demo
     command: package
     chartPath: 'charts/croc-hunter'
 
