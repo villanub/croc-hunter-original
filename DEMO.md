@@ -4,7 +4,9 @@
 Continuation of the awesome work by everett-toews.
 * https://gist.github.com/everett-toews/ed56adcfd525ce65b178d2e5a5eb06aa
 
-## Watch Demo
+## Watch DevOps with Kubernetes and Helm Demo video (45 min)
+
+## Watch Jenkins Demo
 
 https://www.youtube.com/watch?v=eMOzF_xAm7w
 
@@ -21,10 +23,10 @@ helm repo update
 
 ## Fork repo
 ``` 
-https://github.com/lachie83/croc-hunter#fork-destination-box
+https://github.com/jldeen/croc-hunter#fork-destination-box
 ```
 
-## Install Kube Lego chart
+## Install Cert Manager
 ```
 helm install stable/kube-lego --set config.LEGO_EMAIL=<valid-email>,config.LEGO_URL=https://acme-v01.api.letsencrypt.org/directory
 ```
@@ -44,7 +46,16 @@ or *.test.com in A <nginx ingress svc external-IP>
 
 ```
 
-## Set Jenkins cluster rolebinding
+## Add a Cluster Issuer to you rcluster
+```
+kubectl apply -f cluster-issuer.yaml
+```
+## Set Codefresh cluster rolebinding (if using Codefresh)
+```
+kubectl create clusterrolebinding default-admin --clusterrole cluster-admin --serviceaccount=default:default 
+```
+
+## Set Jenkins cluster rolebinding (if using Jenkins)
 ```
 kubectl create clusterrolebinding jenkins --clusterrole cluster-admin --serviceaccount=jenkins-demo:default 
 ```
@@ -163,12 +174,7 @@ git push
 ```
 open ${JENKINS_URL}/blue/organizations/jenkins/lachie83%2Fcroc-hunter/activity/
 
-# dev branch builds
+open https://github.com/jldeen/croc-hunter
 
-open https://github.com/lachie83/croc-hunter
-
-# PR from dev to master
-# PR builds
-# merge the PR
 # master builds and deploys new version
 ```
