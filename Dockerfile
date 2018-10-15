@@ -1,4 +1,4 @@
-FROM jfrogjd-crochunter.jfrog.io/crochunter-alpinego:latest
+FROM golang:1.8-alpine3.6
 
 LABEL maintainer="jessde@microsoft.com"
 
