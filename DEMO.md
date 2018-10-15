@@ -28,7 +28,19 @@ https://github.com/jldeen/croc-hunter#fork-destination-box
 
 ## Install Cert Manager
 ```
-helm install stable/kube-lego --set config.LEGO_EMAIL=<valid-email>,config.LEGO_URL=https://acme-v01.api.letsencrypt.org/directory
+helm install --name cert-mgr stable/cert-manager
+```
+
+In order to begin issuing certificates, you will need to set up a ClusterIssuer or Issuer resource (for example, by creating a 'letsencrypt-staging' issuer).
+
+More information on the different types of issuers and how to configure them can be found in the cert manager documentation:
+
+https://cert-manager.readthedocs.io/en/latest/reference/issuers.html
+
+## Install a ClusterIssuer
+
+```
+kubectl apply -f cluster-issuer.yaml
 ```
 
 ## Install Nginx ingress chart
@@ -46,10 +58,6 @@ or *.test.com in A <nginx ingress svc external-IP>
 
 ```
 
-## Add a Cluster Issuer to you rcluster
-```
-kubectl apply -f cluster-issuer.yaml
-```
 ## Set Codefresh cluster rolebinding (if using Codefresh)
 ```
 kubectl create clusterrolebinding default-admin --clusterrole cluster-admin --serviceaccount=default:default 
