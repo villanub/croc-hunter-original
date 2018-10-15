@@ -13,7 +13,7 @@ Basic go webserver with static javascript web app to demonstrate example CI/CD p
 
 [Watch pre-recorded video here to learn more!](https://jdstor1.blob.core.windows.net/video/OSVC-Jessica-Deen.mp4)
 
-[Follow the Demo.MD to learn more and follow along!](./DEMO.md)
+[Follow the demo guidance markdown to learn more and follow along!](./DEMO.md)
 
 # Jenkins Config
 

@@ -13,17 +13,23 @@ https://www.youtube.com/watch?v=eMOzF_xAm7w
 # Prerequisites
 kubectl access to a Kubernetes 1.4+ cluster
 
+## Fork repo
+``` 
+https://github.com/jldeen/croc-hunter#fork-destination-box
+```
+
+# Setup Tiller Service account
+
+```
+kubectl apply -f rbac-config.yaml
+```
+
 # Install Helm (Mac OS)
 
 ```
 brew install kubernetes-helm
-helm init
+helm init --service-account tiller
 helm repo update
-```
-
-## Fork repo
-``` 
-https://github.com/jldeen/croc-hunter#fork-destination-box
 ```
 
 ## Install Cert Manager
@@ -49,6 +55,7 @@ helm install stable/nginx-ingress
 
 Follow the notes from helm status to determine the external IP of the nginx-ingress service
 ```
+To learn more about ingresses, you can checkout my blog post [here](https://jessicadeen.com/tech/microsoft/aks-and-helm-charts-ingress-controllers/). 
 
 ## Add a DNS entry with your provider and point it do the external IP
 ```
@@ -67,7 +74,7 @@ kubectl create clusterrolebinding default-admin --clusterrole cluster-admin --se
 ```
 kubectl create clusterrolebinding jenkins --clusterrole cluster-admin --serviceaccount=jenkins-demo:default 
 ```
-
+# Below is just for Jenkins
 ## Update jenkins.values.yaml
 ```
 Find and replace `jenkins.acs.az.estrado.io` with the DNS name provisioned above
