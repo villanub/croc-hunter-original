@@ -4,29 +4,49 @@
 Continuation of the awesome work by everett-toews.
 * https://gist.github.com/everett-toews/ed56adcfd525ce65b178d2e5a5eb06aa
 
-## Watch Demo
+## Watch DevOps with Kubernetes and Helm Demo video (45 min)
+
+## Watch Jenkins Demo
 
 https://www.youtube.com/watch?v=eMOzF_xAm7w
 
 # Prerequisites
 kubectl access to a Kubernetes 1.4+ cluster
 
+## Fork repo
+``` 
+https://github.com/jldeen/croc-hunter#fork-destination-box
+```
+
+# Setup Tiller Service account
+
+```
+kubectl apply -f rbac-config.yaml
+```
+
 # Install Helm (Mac OS)
 
 ```
 brew install kubernetes-helm
-helm init
+helm init --service-account tiller
 helm repo update
 ```
 
-## Fork repo
-``` 
-https://github.com/lachie83/croc-hunter#fork-destination-box
+## Install Cert Manager
+```
+helm install --name cert-mgr stable/cert-manager
 ```
 
-## Install Kube Lego chart
+In order to begin issuing certificates, you will need to set up a ClusterIssuer or Issuer resource (for example, by creating a 'letsencrypt-staging' issuer).
+
+More information on the different types of issuers and how to configure them can be found in the cert manager documentation:
+
+https://cert-manager.readthedocs.io/en/latest/reference/issuers.html
+
+## Install a ClusterIssuer
+
 ```
-helm install stable/kube-lego --set config.LEGO_EMAIL=<valid-email>,config.LEGO_URL=https://acme-v01.api.letsencrypt.org/directory
+kubectl apply -f cluster-issuer.yaml
 ```
 
 ## Install Nginx ingress chart
@@ -35,6 +55,7 @@ helm install stable/nginx-ingress
 
 Follow the notes from helm status to determine the external IP of the nginx-ingress service
 ```
+To learn more about ingresses, you can checkout my blog post [here](https://jessicadeen.com/tech/microsoft/aks-and-helm-charts-ingress-controllers/). 
 
 ## Add a DNS entry with your provider and point it do the external IP
 ```
@@ -44,11 +65,16 @@ or *.test.com in A <nginx ingress svc external-IP>
 
 ```
 
-## Set Jenkins cluster rolebinding
+## Set Codefresh cluster rolebinding (if using Codefresh)
+```
+kubectl create clusterrolebinding default-admin --clusterrole cluster-admin --serviceaccount=default:default 
+```
+
+## Set Jenkins cluster rolebinding (if using Jenkins)
 ```
 kubectl create clusterrolebinding jenkins --clusterrole cluster-admin --serviceaccount=jenkins-demo:default 
 ```
-
+# Below is just for Jenkins
 ## Update jenkins.values.yaml
 ```
 Find and replace `jenkins.acs.az.estrado.io` with the DNS name provisioned above
@@ -163,12 +189,7 @@ git push
 ```
 open ${JENKINS_URL}/blue/organizations/jenkins/lachie83%2Fcroc-hunter/activity/
 
-# dev branch builds
+open https://github.com/jldeen/croc-hunter
 
-open https://github.com/lachie83/croc-hunter
-
-# PR from dev to master
-# PR builds
-# merge the PR
 # master builds and deploys new version
 ```
