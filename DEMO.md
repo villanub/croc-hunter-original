@@ -13,6 +13,8 @@ https://www.youtube.com/watch?v=eMOzF_xAm7w
 # Prerequisites
 kubectl access to a Kubernetes 1.4+ cluster
 
+If need be, you can run Kuberentes from within Docker for Desktop. More information [here](https://blog.docker.com/2018/07/kubernetes-is-now-available-in-docker-desktop-stable-channel/). This will give you access to a local Kubernetes cluster to use with the walkthrough here.
+
 ## Fork repo
 ``` 
 https://github.com/jldeen/croc-hunter#fork-destination-box
