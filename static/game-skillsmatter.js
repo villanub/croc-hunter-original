@@ -15,7 +15,7 @@ var mouseY=0;
 var isPlaying=false;
 var requestAnimFrame=window.requestAnimationFrame||window.webkitRequestAnimationFrame||window.mozRequestAnimationFrame||window.oRequestAnimationFrame||window.msRequestAnimationFrame||function(callback){window.setTimeout(callback,1e3/60)};
 var enemies=[];
-var imgSprite=new Image;imgSprite.src="/static/sprite-live360.png";imgSprite.addEventListener("load",init,false);
+var imgSprite=new Image;imgSprite.src="/static/sprite-skillsmatter.png";imgSprite.addEventListener("load",init,false);
 var bgDrawX1=0;
 var bgDrawX2=1600;
 
