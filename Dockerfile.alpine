@@ -1,9 +1,12 @@
-FROM golang:1.14.2
+FROM golang:1.14.2-alpine3.11
+
+USER 1000
 
 COPY croc-hunter.go /go/src/croc-hunter/
 COPY static/ static/
 
 ENV GOPATH /go
+ENV GOCACHE /tmp
 
 RUN cd $GOPATH/src/croc-hunter/ && go install -v .
 
