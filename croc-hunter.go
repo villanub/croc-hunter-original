@@ -10,7 +10,16 @@ import (
 )
 
 func main() {
-	httpListenAddr := flag.String("port", "8080", "HTTP Listen address.")
+	port := os.Getenv("PORT")
+
+	if port == "" {
+		port = "8080"
+		log.Println("Defaulting to port", port)
+	} else {
+		log.Println("Default port overridden, using port", port)
+	}
+
+	httpListenAddr := flag.String("port", port, "HTTP Listen address.")
 
 	flag.Parse()
 
